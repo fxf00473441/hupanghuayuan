@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 自动生成，请勿修改. -->
+<mapper namespace="cn.com.hszl.biz.ds.form.TenantForm">
+
+	<!-- 通用where子句基础条件 -->
+	<sql id="common_base_condition">
+		<if test="id!=null">and temp.ID =#{id}</if>
+		<if test="ids!=null">and temp.ID in
+			<foreach collection="ids" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="dto==null">
+			<if test="isDeleted == null"> and temp.IS_DELETED =0</if>
+			<if test="isDeleted == -1"></if>
+			<if test="isDeleted == 0"> and temp.IS_DELETED =0</if>
+			<if test="isDeleted == 1"> and temp.IS_DELETED =1</if>
+		</if>
+		
+		<if test="dto!=null">
+			<if test="dto.id !=null">and temp.ID=#{dto.id}</if>
+			<if test="dto.createTime !=null">and temp.CREATE_TIME=#{dto.createTime}</if>
+			<if test="dto.modifyTime !=null">and temp.MODIFY_TIME=#{dto.modifyTime}</if>
+			<if test="dto.isDeleted == null"> and temp.IS_DELETED =0</if>
+			<if test="dto.isDeleted == -1"></if>
+			<if test="dto.isDeleted == 0"> and temp.IS_DELETED =0</if>
+			<if test="dto.isDeleted == 1"> and temp.IS_DELETED =1</if>
+			<if test="dto.tenant_id !=null">and temp.TENANT_ID=#{dto.tenant_id}</if>
+			<if test="dto.tenant_name !=null">and temp.TENANT_NAME=#{dto.tenant_name}</if>
+			<if test="dto.tenant_address !=null">and temp.TENANT_ADDRESS=#{dto.tenant_address}</if>
+			<if test="dto.tel !=null">and temp.TEL=#{dto.tel}</if>
+			<if test="dto.contant_person !=null">and temp.CONTANT_PERSON=#{dto.contant_person}</if>
+            <if test="dto.phone !=null">and temp.PHONE=#{dto.phone}</if>
+		</if>
+	</sql>
+
+	<!--************************ define:insert sqlMap ***************** -->
+	<!-- 写入一条记录 -->
+	<insert id="insert" parameterType="cn.com.hszl.biz.ds.entity.TenantEntity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO TENANT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="true">CREATE_TIME,</if>
+			<if test="true">MODIFY_TIME,</if>
+			<if test="true">IS_DELETED,</if>
+			<if test="tenant_id !=null">TENANT_ID,</if>
+			<if test="tenant_name !=null">TENANT_NAME,</if>
+			<if test="tenant_address !=null">TENANT_ADDRESS,</if>
+			<if test="tel !=null">TEL,</if>
+			<if test="contant_person !=null">CONTANT_PERSON,</if>
+			<if test="phone !=null">PHONE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="true">now(),</if>
+			<if test="true">now(),</if>
+			<if test="true">0,</if>
+			<if test="tenant_id !=null">#{tenant_id},</if>
+			<if test="tenant_name !=null">#{tenant_name},</if>
+			<if test="tenant_address !=null">#{tenant_address},</if>
+			<if test="tel !=null">#{tel},</if>
+			<if test="contant_person !=null">#{contant_person},</if>
+			<if test="phone !=null">#{phone},</if>
+		</trim>
+	</insert>
+
+	<!-- 写入多条记录 -->
+	<insert id="insertBulk" parameterType="java.util.Collection" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO TENANT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="true">CREATE_TIME,</if>
+			<if test="true">MODIFY_TIME,</if>
+			<if test="true">IS_DELETED,</if>
+			<if test="true">TENANT_ID,</if>
+			<if test="true">TENANT_NAME,</if>
+			<if test="true">TENANT_ADDRESS,</if>
+			<if test="true">TEL,</if>
+			<if test="true">CONTANT_PERSON,</if>
+			<if test="true">PHONE,</if>
+		</trim>
+		values
+		<foreach collection="list" item="dto" open="" separator="," close="">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+			    <if test="true">now(),</if>
+			    <if test="true">now(),</if>
+			    <if test="true">0,</if>
+			    <if test="tenant_id !=null">#{dto.tenant_id},</if>
+			    <if test="tenant_name !=null">#{dto.tenant_name},</if>
+			    <if test="tenant_address !=null">#{dto.tenant_address},</if>
+			    <if test="tel !=null">#{dto.tel},</if>
+			    <if test="contant_person !=null">#{dto.contant_person},</if>
+			    <if test="phone !=null">#{dto.phone},</if>
+			</trim>
+		</foreach>
+	</insert>
+
+	<!--************************ define:delete sqlMap ***************** -->
+	<!-- 删除记录按条件 -->
+	<delete id="deleteForce" parameterType="java.util.Map">
+		DELETE temp FROM TENANT temp
+		<where>
+			<include refid="common_base_condition" />
+			<include refid="delete_extend_condition" />
+		</where>
+	</delete>
+
+	<update id="delete" parameterType="java.util.Map">
+		UPDATE TENANT temp set temp.IS_DELETED = 1
+		<where>
+			<include refid="common_base_condition" />
+			<include refid="delete_extend_condition" />
+		</where>
+	</update>
+	<!--************************ define:update sqlMap **************** -->
+	<!-- 更新记录byID -->
+	<update id="update" parameterType="cn.com.hszl.biz.ds.entity.TenantEntity">
+		UPDATE TENANT temp
+		<set>
+			<if test="true">temp.MODIFY_TIME=now(),</if>
+			<if test="dto.isDeleted !=null ">temp.IS_DELETED=#{dto.isDeleted},</if>
+			<if test="dto.tenant_name !=null ">temp.TENANT_NAME=#{dto.tenant_name},</if>
+			<if test="dto.tenant_address !=null ">temp.TENANT_ADDRESS=#{dto.tenant_address},</if>
+			<if test="dto.tel !=null ">temp.TEL=#{dto.tel},</if>
+			<if test="dto.contant_person !=null ">temp.CONTANT_PERSON=#{dto.contant_person},</if>
+			<if test="dto.phone !=null ">temp.PHONE=#{dto.phone},</if>
+			<include refid="update_extend_update" />
+		</set>
+		WHERE temp.id=#{dto.id}
+	</update>
+
+
+	<!--************************ define:select sqlMap **************** -->
+	<!-- 查询记录byID -->
+	<select id="getById" resultType="cn.com.hszl.biz.ds.form.TenantForm" parameterType="java.util.Map">
+		SELECT * FROM TENANT
+		WHERE ID=#{id} 
+		<if test="isDeleted == null"> and IS_DELETED =0</if>
+		<if test="isDeleted == -1"></if>
+		<if test="isDeleted == 0"> and IS_DELETED =0</if>
+		<if test="isDeleted == 1"> and IS_DELETED =1</if>
+	</select>
+
+	<select id="getFrist" resultType="cn.com.hszl.biz.ds.form.TenantForm" parameterType="java.util.Map">
+		SELECT * FROM TENANT temp
+		<where>
+			<include refid="common_base_condition" />
+			<include refid="list_extend_condition" />
+		</where>
+		<include refid="common.orderby" />
+		LIMIT 0,1
+	</select>
+
+
+	<!-- 查询记录按条件 -->
+	<select id="list" resultType="cn.com.hszl.biz.ds.form.TenantForm" parameterType="java.util.Map">
+		SELECT * FROM TENANT temp
+		<where>
+			<include refid="common_base_condition" />
+			<include refid="list_extend_condition" />
+		</where>
+	</select>
+
+	<select id="pageList" resultType="cn.com.hszl.biz.ds.form.TenantForm" parameterType="java.util.Map">
+		SELECT * FROM TENANT temp
+		<where>
+			<include refid="common_base_condition" />
+			<include refid="pageList_extend_condition" />
+		</where>
+		<include refid="common.orderby" />
+		LIMIT #{page.firstItem},#{page.pageSize}
+	</select>
+	
+	<select id="pageCount"  resultType="java.lang.Integer" parameterType="java.util.Map">
+	    SELECT count(*) FROM TENANT temp
+	    <where> 
+	      	<include refid="common_base_condition"/>
+	        <include refid="pageList_extend_condition"/>
+	    </where> 
+	</select>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+　请编写你需要的个性化sql map
+-->
+<mapper namespace="cn.com.hszl.biz.ds.form.TenantForm">
+
+	<!--***** SysUser_AutoSqlMap.xml where sql 自定义扩展条件 ***** -->
+	
+	<!-- delete 扩展条件 -->
+	<sql id="delete_extend_condition">
+		<include refid="common_extend_condition"/>
+	</sql>
+	
+	<!-- list 扩展条件 -->
+	<sql id="list_extend_condition">
+		<include refid="common_extend_condition"/>
+	</sql>
+	
+	<!-- pageList 扩展条件 -->
+	<sql id="pageList_extend_condition">
+		<include refid="common_extend_condition"/>
+	</sql>
+	
+	<!-- update 扩展更新语句 -->
+	<sql id="update_extend_update">
+	</sql>
+	
+	<!-- 通用扩展条件 -->
+	<sql id="common_extend_condition">
+	</sql>
+
+	<!--************************ define:insert sqlMap ***************** -->
+	
+	<!--************************ define:delete sqlMap ***************** -->
+	
+	<!--************************ define:update sqlMap **************** -->
+	
+	<!--************************ define:select sqlMap **************** -->
+
+</mapper>
