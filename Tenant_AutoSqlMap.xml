@@ -28,11 +28,11 @@
 			<if test="dto.isDeleted == -1"></if>
 			<if test="dto.isDeleted == 0"> and temp.IS_DELETED =0</if>
 			<if test="dto.isDeleted == 1"> and temp.IS_DELETED =1</if>
-			<if test="dto.tenant_id !=null">and temp.TENANT_ID=#{dto.tenant_id}</if>
-			<if test="dto.tenant_name !=null">and temp.TENANT_NAME=#{dto.tenant_name}</if>
-			<if test="dto.tenant_address !=null">and temp.TENANT_ADDRESS=#{dto.tenant_address}</if>
+			<if test="dto.tenantId !=null">and temp.TENANT_ID=#{dto.tenantId}</if>
+			<if test="dto.tenantName !=null">and temp.TENANT_NAME=#{dto.tenantName}</if>
+			<if test="dto.tenantAddress !=null">and temp.TENANT_ADDRESS=#{dto.tenantAddress}</if>
 			<if test="dto.tel !=null">and temp.TEL=#{dto.tel}</if>
-			<if test="dto.contant_person !=null">and temp.CONTANT_PERSON=#{dto.contant_person}</if>
+			<if test="dto.contantPerson !=null">and temp.CONTANT_PERSON=#{dto.contantPerson}</if>
             <if test="dto.phone !=null">and temp.PHONE=#{dto.phone}</if>
 		</if>
 	</sql>
@@ -45,22 +45,22 @@
 			<if test="true">CREATE_TIME,</if>
 			<if test="true">MODIFY_TIME,</if>
 			<if test="true">IS_DELETED,</if>
-			<if test="tenant_id !=null">TENANT_ID,</if>
-			<if test="tenant_name !=null">TENANT_NAME,</if>
-			<if test="tenant_address !=null">TENANT_ADDRESS,</if>
+			<if test="tenantId !=null">TENANT_ID,</if>
+			<if test="tenantName !=null">TENANT_NAME,</if>
+			<if test="tenantAddress !=null">TENANT_ADDRESS,</if>
 			<if test="tel !=null">TEL,</if>
-			<if test="contant_person !=null">CONTANT_PERSON,</if>
+			<if test="contantPerson !=null">CONTANT_PERSON,</if>
 			<if test="phone !=null">PHONE,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="true">now(),</if>
 			<if test="true">now(),</if>
 			<if test="true">0,</if>
-			<if test="tenant_id !=null">#{tenant_id},</if>
-			<if test="tenant_name !=null">#{tenant_name},</if>
-			<if test="tenant_address !=null">#{tenant_address},</if>
+			<if test="tenantId !=null">#{tenantId},</if>
+			<if test="tenantName !=null">#{tenantName},</if>
+			<if test="tenantAddress !=null">#{tenantAddress},</if>
 			<if test="tel !=null">#{tel},</if>
-			<if test="contant_person !=null">#{contant_person},</if>
+			<if test="contantPerson !=null">#{contantPerson},</if>
 			<if test="phone !=null">#{phone},</if>
 		</trim>
 	</insert>
@@ -85,11 +85,11 @@
 			    <if test="true">now(),</if>
 			    <if test="true">now(),</if>
 			    <if test="true">0,</if>
-			    <if test="tenant_id !=null">#{dto.tenant_id},</if>
-			    <if test="tenant_name !=null">#{dto.tenant_name},</if>
-			    <if test="tenant_address !=null">#{dto.tenant_address},</if>
+			    <if test="tenantId !=null">#{dto.tenantId},</if>
+			    <if test="tenantName !=null">#{dto.tenantName},</if>
+			    <if test="tenant_address !=null">#{dto.tenantAddress},</if>
 			    <if test="tel !=null">#{dto.tel},</if>
-			    <if test="contant_person !=null">#{dto.contant_person},</if>
+			    <if test="contantPerson !=null">#{dto.contantPerson},</if>
 			    <if test="phone !=null">#{dto.phone},</if>
 			</trim>
 		</foreach>
@@ -119,10 +119,10 @@
 		<set>
 			<if test="true">temp.MODIFY_TIME=now(),</if>
 			<if test="dto.isDeleted !=null ">temp.IS_DELETED=#{dto.isDeleted},</if>
-			<if test="dto.tenant_name !=null ">temp.TENANT_NAME=#{dto.tenant_name},</if>
-			<if test="dto.tenant_address !=null ">temp.TENANT_ADDRESS=#{dto.tenant_address},</if>
+			<if test="dto.tenantName !=null ">temp.TENANT_NAME=#{dto.tenantName},</if>
+			<if test="dto.tenantAddress !=null ">temp.TENANT_ADDRESS=#{dto.tenantAddress},</if>
 			<if test="dto.tel !=null ">temp.TEL=#{dto.tel},</if>
-			<if test="dto.contant_person !=null ">temp.CONTANT_PERSON=#{dto.contant_person},</if>
+			<if test="dto.contantPerson !=null ">temp.CONTANT_PERSON=#{dto.contantPerson},</if>
 			<if test="dto.phone !=null ">temp.PHONE=#{dto.phone},</if>
 			<include refid="update_extend_update" />
 		</set>
