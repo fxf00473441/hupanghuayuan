@@ -24,6 +24,7 @@
 <script src="../static/js/slick.dataview.js"></script>
 <script src="../static/js/controls/slick.pager.js"></script>
 <script src="../static/js/controls/slick.columnpicker.js"></script>
+<script src="../static/js/device.manager.js"></script>
   <style>
     .cell-title {
       font-weight: bold;
@@ -53,8 +54,8 @@
     }
   </style>
 </head>
-<body>
-<div id="content_div" stype="width:1320px;heigth:800px;background:rgba(242, 243, 247, 1);margin:0 auto;">
+<body id="index_body">
+<div id="content_div_tenant" stype="width:1320px;heigth:800px;background:rgba(242, 243, 247, 1);margin:0 auto;">
 <div style="width:1300px;height:50px;background:linear-gradient(90deg, rgba(30, 50, 77, 1) 0%, rgba(30, 50, 77, 1) 0%, rgba(29, 77, 126, 1) 100%, rgba(29, 77, 126, 1) 100%);margin:0 auto">
   <span style="font-weight:400;font-style:normal;color:#FFFFFF;line-height:28px;font-size:18px;position:absolute;margin-top:10px;margin-left:15px;">酒店安全防护系统</span>
 </div>
@@ -95,9 +96,42 @@
 </div>
 </div>
 
+<div id="content_device_div" stype="width:1320px;heigth:800px;background:rgba(242, 243, 247, 1);margin:0 auto;display:none;">
+<div style="width:1300px;height:50px;background:linear-gradient(90deg, rgba(30, 50, 77, 1) 0%, rgba(30, 50, 77, 1) 0%, rgba(29, 77, 126, 1) 100%, rgba(29, 77, 126, 1) 100%);margin:0 auto">
+  <span style="font-weight:400;font-style:normal;color:#FFFFFF;line-height:28px;font-size:18px;position:absolute;margin-top:10px;margin-left:15px;">酒店安全防护系统</span>
+</div>
+<div style="width:300px;height:750px;top:50px;background-color：red;margin-left:-650px;left:50%;position:absolute;">
+  <div style="width:300px;height:44px;background-color:rgba(242, 242, 242, 1);margin-top:15px;">
+    <button value="租户概览" style="position:absolute;width:80px;height:30px;background-color:white;margin-top:8px;margin-left:10px;border:none;">租户信息</button>
+  </div>
+  <div style="position:absolute;width:300px;height:200px;">
+    <table>
+	  <tr><td>租户id：</td><td>d7856b5f-ad2a-4e60-b1db-e5de5b57e606</td></tr>
+	  <tr><td>租户名字：</td><td>1</td></tr>
+      <tr><td>资产总数：</td><td>100</td></tr>
+      <tr><td>异常资产数：</td><td>1</td></tr>
+	</table>
+  </div>
+</div>
+<div style="position:absolute;width:990px;height:750px;top:50px;margin-right:-660px;right:50%;position:absolute;">
+  <div style="position:absolute;width:99%;height:44px;background-color:rgba(242, 242, 242, 1);margin-top:15px;">
+    <button value="租户管理" style="position:absolute;width:80px;height:30px;background-color:white;margin-top:8px;margin-left:10px;border:none;">资产录入</button>
+  </div>
+  <div id="batch_operation" style="position:absolute;width:99%;height:130px;background-color:rgba(242, 242, 242, 1);margin-top:60px;">
+    <table>
+	  <tr><td>管辖区域:</td><td><input id ="room_num" name="room_num"/></td><td style="width:30px;"></td><td>终端mac:</td><td><input id="mac" name="mac"/></td><td style="width:30px;"></td><td>终端版本:</td><td><input id="version" name="version" value=""/></tr>
+	  <tr><td>指纹库版本:</td><td><input id="finger_version" name="finger_version"/></td><td style="width:30px;"></td><td>连接wifi:</td><td><input id="wifi" name="wifi"/></td><td style="width:30px;"></td><td></td><td><input value="创建" type="button" onclick="addRoom();"/></td></tr>
+	</table>
+  </div>
+  <div style="width:99%;height:580px;margin-top:200px;position:absolute;">
+    <div id="device_list" style="width:100%;height:540px;"></div>
+    <div id="device_pager" style="width:100%;height:20px;"></div>
+  </div>
+</div>
+</div>
+
 <script>
-
-
+$("#content_device_div")[0].style.display = "none";
 function addTenant(){
 	var tenant_name = $("#tenant_name").val();
 	var tenant_address = $(" #tenant_address ").val();
@@ -139,6 +173,12 @@ dataView.beginUpdate();
    });
 }
 
+function showDetail(){
+	alert(77);
+	$("#content_div_tenant")[0].style.display = "none";
+	$("#content_device_div")[0].style.display = "";
+}
+
 function isIEPreVer9() { var v = navigator.appVersion.match(/MSIE ([\d.]+)/i); return (v ? v[1] < 9 : false); }
 
 var dataView;
@@ -174,7 +214,7 @@ var options = {
 };
 
 function buttonFormatter(row,cell,value,columnDef,dataContext){  
-    var button = "<input class='del' type='button' id='"+ dataContext.id +"' value='删除' title='删除'/><input class='del' style='margin-left:5px;' type='button' id='"+ dataContext.id +"' value='详情' title='详情'/>";
+    var button = "<input class='del' type='button' id='del_button' value='删除' title='删除'/><input class='del' style='margin-left:5px;' type='button' id='detail_button' value='详情' title='详情'/>";
     //the id is so that you can identify the row when the particular button is clicked
     return button;
     //Now the row will display your button
@@ -230,19 +270,6 @@ $(".grid-header .ui-icon")
         });
 
 $(function () {
-  // prepare the data
-  for (var i = 0; i < 19; i++) {
-    var d = (data[i] = {});
-    d["id"] = "id_" + i;
-    d["tenant_name"] = "name_" + i;
-    d["tenant_addr"] = i;
-    d["tenant_phone"] = "Task " + i;
-    d["call_by"] = "5 days";
-    d["phone"] = Math.round(Math.random() * 100);
-    d["abnormal"] = "01/01/2009";
-  }
-
-
   dataView = new Slick.Data.DataView({ inlineFilters: true });
   grid = new Slick.Grid("#myGrid", dataView, columns, options);
   grid.setSelectionModel(new Slick.RowSelectionModel());
@@ -383,18 +410,17 @@ $(function () {
     dataView.refresh();
   }
 
-  $("#btnSelectRows").click(function () {
-    if (!Slick.GlobalEditorLock.commitCurrentEdit()) {
-      return;
-    }
-    var rows = [];
-    for (var i = 0; i < 10 && i < dataView.getLength(); i++) {
-      rows.push(i);
-    }
-
-    grid.setSelectedRows(rows);
-  });
-
+  grid.onClick.subscribe(function (e) {
+      var cell = grid.getCellFromEvent(e);
+      if (grid.getColumns()[cell.cell].id == "operation_clo") {
+        if(e.target.id == "detail_button"){
+	        showDetail();
+        }
+        if(e.target.id == "del_button"){
+	        alert("delete tenant");
+        }
+      }
+    });
 
   // initialize the model after all the events have been hooked up
   dataView.beginUpdate();
@@ -409,8 +435,8 @@ $(function () {
   // if you don't want the items that are not visible (due to being filtered out
   // or being on a different page) to stay selected, pass 'false' to the second arg
   dataView.syncGridSelection(grid, true);
-
   $("#gridContainer").resizable();
+  listTenant();
 })
 </script>
 </body>
